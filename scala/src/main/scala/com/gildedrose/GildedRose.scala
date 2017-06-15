@@ -14,13 +14,12 @@ class GildedRose(val items: Array[Item]) {
   }
 
   private def handleNonLegendaryItems(item: Item): Item = {
+    reduceSellIn(item)
     return item.name match {
       case `backstagePass` => alterBackstagePassQuality(item)
       case `brie` => alterBrieQuality(item)
       case `conjured` => alterConjuredQuality(item)
       case _ =>
-
-        reduceSellIn(item)
 
         val reduction = if (item.sellIn > 0) 1 else 2
 
@@ -44,19 +43,16 @@ class GildedRose(val items: Array[Item]) {
   }
 
   private def alterConjuredQuality(item: Item): Item = {
-    reduceSellIn(item)
     decreaseQuality(item, 2)
     item
   }
 
   private def alterBrieQuality(item: Item): Item = {
-    reduceSellIn(item)
     increaseQuality(item)
     item
   }
 
   private def alterBackstagePassQuality(item: Item): Item = {
-    reduceSellIn(item)
     increaseQuality(item)
 
     if (item.sellIn < 10) {

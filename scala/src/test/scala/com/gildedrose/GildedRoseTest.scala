@@ -26,7 +26,7 @@ class GildedRoseTest extends FlatSpec with Matchers with BeforeAndAfterEach {
     item.sellIn shouldBe(expectedValue)
   }
 
-  it should "always decrease sellIn unless it is zero or sulfuras" in {
+  it should "always decrease sellIn unless it is zero" in {
     val items = Array[Item](anyItem, brie, freshBrie, sulfuras)
     val app = new GildedRose(items)
     app.updateQuality()
@@ -71,7 +71,7 @@ class GildedRoseTest extends FlatSpec with Matchers with BeforeAndAfterEach {
     checkQuality(app.items(0), 80)
   }
 
-  it should "never have to sell Sulfuras" in {
+  it should "never decrease the sellIn of Sulfuras" in {
     val items = Array[Item](sulfuras)
     val app = new GildedRose(items)
     app.updateQuality()
