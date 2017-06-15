@@ -2,12 +2,17 @@ package com.gildedrose
 
 import org.scalatest._
 
-class GildedRoseTest extends FlatSpec with Matchers {
+class GildedRoseTest extends FlatSpec with Matchers with BeforeAndAfterEach {
 
-  private val anyItem = new Item("anyItem", 0, 2)
-  private val brie = new Item("Aged Brie", 1, 2)
-  private val highQualityBrie = new Item("Aged Brie", 1, 50)
-  private val sulfuras = new Item("Sulfuras, Hand of Ragnaros", 1, 80)
+  var anyItem, brie, freshBrie, highQualityBrie, sulfuras: Item = null
+
+  override def beforeEach(): Unit = {
+    anyItem = new Item("anyItem", 0, 2)
+    brie = new Item("Aged Brie", 1, 2)
+    freshBrie = new Item("Aged Brie", 0, 0)
+    highQualityBrie = new Item("Aged Brie", 1, 50)
+    sulfuras = new Item("Sulfuras, Hand of Ragnaros", 1, 80)
+  }
 
   private def backstagePassInDays(days: Int) = {
     new Item("Backstage passes to a TAFKAL80ETC concert", days, 40)
@@ -15,6 +20,20 @@ class GildedRoseTest extends FlatSpec with Matchers {
 
   private def checkQuality(item: Item, expectedValue: Int) = {
     item.quality shouldBe expectedValue
+  }
+
+  private def checkSellIn(item: Item, expectedValue: Int): Any = {
+    item.sellIn shouldBe(expectedValue)
+  }
+
+  it should "always decrease sellIn unless it is zero or sulfuras" in {
+    val items = Array[Item](anyItem, brie, freshBrie, sulfuras)
+    val app = new GildedRose(items)
+    app.updateQuality()
+    checkSellIn(app.items(0), 0)
+    checkSellIn(app.items(1), 0)
+    checkSellIn(app.items(2), 0)
+    checkSellIn(app.items(3), 1)
   }
 
   it should "degrade twice as fast when SellIn date is passed" in {
