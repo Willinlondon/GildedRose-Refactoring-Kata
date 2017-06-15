@@ -27,21 +27,6 @@ class GildedRose(val items: Array[Item]) {
     }
   }
 
-  private def decreaseQuality(item: Item, quantity: Int): Item = {
-    for (_ <- 1 to quantity) {
-      if (item.quality > 0) {
-        item.quality = item.quality - 1
-      }
-    }
-    item
-  }
-
-  private def reduceSellIn(item: Item): Unit = {
-    if (item.sellIn > 0) {
-      item.sellIn = item.sellIn - 1
-    }
-  }
-
   private def alterConjuredQuality(item: Item): Item = {
     decreaseQuality(item, 2)
     item
@@ -72,6 +57,21 @@ class GildedRose(val items: Array[Item]) {
   private def increaseQuality(item: Item) = {
     if (item.quality < 50) {
       item.quality = item.quality + 1
+    }
+  }
+
+  private def decreaseQuality(item: Item, quantity: Int): Item = {
+    for (_ <- 1 to quantity) {
+      if (item.quality > 0) {
+        item.quality = item.quality - 1
+      }
+    }
+    item
+  }
+
+  private def reduceSellIn(item: Item): Unit = {
+    if (item.sellIn > 0) {
+      item.sellIn = item.sellIn - 1
     }
   }
 }
