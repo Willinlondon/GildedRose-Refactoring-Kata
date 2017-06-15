@@ -92,4 +92,13 @@ class GildedRoseTest extends FlatSpec with Matchers with BeforeAndAfterEach {
     checkQuality(app.items(2), 43)
     checkQuality(app.items(3), 0)
   }
+
+  it should "decrease the value of conjured items twice as fast" in {
+    val items = Array[Item](
+      new Item("Conjured", 2, 4)
+    )
+    val app = new GildedRose(items)
+    app.updateQuality()
+    checkQuality(app.items(0), 2)
+  }
 }
