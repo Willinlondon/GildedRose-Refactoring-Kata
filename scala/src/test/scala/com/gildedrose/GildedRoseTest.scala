@@ -24,4 +24,11 @@ class GildedRoseTest extends FlatSpec with Matchers {
     app.updateQuality()
     app.items(0).quality shouldBe(3)
   }
+
+  it should "limit quality to 50" in {
+    val items = Array[Item](new Item("Aged Brie", 1, 50))
+    val app = new GildedRose(items)
+    app.updateQuality()
+    app.items(0).quality shouldBe(50)
+  }
 }
