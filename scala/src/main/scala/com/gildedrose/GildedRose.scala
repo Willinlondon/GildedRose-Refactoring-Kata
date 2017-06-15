@@ -10,31 +10,18 @@ class GildedRose(val items: Array[Item]) {
     for (i <- 0 until items.length) {
       items(i).name match {
         case `sulfuras` =>
+        case `backstagePass` => alterBackstagePassQuality(i)
+
         case _ =>
 
 
-          if (!items(i).name.equals(brie)
-            && !items(i).name.equals(backstagePass)) {
-            if (items(i).quality > 0) {
-              items(i).quality = items(i).quality - 1
-            }
-          } else {
+          if (items(i).name.equals(brie)) {
             if (items(i).quality < 50) {
               items(i).quality = items(i).quality + 1
-
-              if (items(i).name.equals(backstagePass)) {
-                if (items(i).sellIn < 11) {
-                  if (items(i).quality < 50) {
-                    items(i).quality = items(i).quality + 1
-                  }
-                }
-
-                if (items(i).sellIn < 6) {
-                  if (items(i).quality < 50) {
-                    items(i).quality = items(i).quality + 1
-                  }
-                }
-              }
+            }
+          } else {
+            if (items(i).quality > 0) {
+              items(i).quality = items(i).quality - 1
             }
           }
 
@@ -42,12 +29,8 @@ class GildedRose(val items: Array[Item]) {
 
           if (items(i).sellIn < 0) {
             if (!items(i).name.equals(brie)) {
-              if (!items(i).name.equals(backstagePass)) {
-                if (items(i).quality > 0) {
-                  items(i).quality = items(i).quality - 1
-                }
-              } else {
-                items(i).quality = items(i).quality - items(i).quality
+              if (items(i).quality > 0) {
+                items(i).quality = items(i).quality - 1
               }
             } else {
               if (items(i).quality < 50) {
@@ -56,6 +39,29 @@ class GildedRose(val items: Array[Item]) {
             }
           }
       }
+    }
+  }
+
+  private def alterBackstagePassQuality(i: Int) = {
+    if (items(i).quality < 50) {
+      items(i).quality = items(i).quality + 1
+    }
+
+    if (items(i).sellIn < 11) {
+      if (items(i).quality < 50) {
+        items(i).quality = items(i).quality + 1
+      }
+
+      if (items(i).sellIn < 6) {
+        if (items(i).quality < 50) {
+          items(i).quality = items(i).quality + 1
+        }
+      }
+
+      if (items(i).sellIn < 1) {
+        items(i).quality = 0
+      }
+      items(i).sellIn = items(i).sellIn - 1
     }
   }
 }
