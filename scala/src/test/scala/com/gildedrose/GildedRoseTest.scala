@@ -45,4 +45,19 @@ class GildedRoseTest extends FlatSpec with Matchers {
     app.updateQuality()
     app.items(0).sellIn shouldBe(1)
   }
+
+  it should "increase the value of backstage passes by 2 or 3 or drop to 0" in {
+    val items = Array[Item](
+      new Item("Backstage passes to a TAFKAL80ETC concert", 11, 40),
+      new Item("Backstage passes to a TAFKAL80ETC concert", 6, 40),
+      new Item("Backstage passes to a TAFKAL80ETC concert", 3, 40),
+      new Item("Backstage passes to a TAFKAL80ETC concert", 0, 40)
+    )
+    val app = new GildedRose(items)
+    app.updateQuality()
+    app.items(0).quality shouldBe(41)
+    app.items(1).quality shouldBe(42)
+    app.items(2).quality shouldBe(43)
+    app.items(3).quality shouldBe(0)
+  }
 }
