@@ -8,68 +8,74 @@ class GildedRose(val items: Array[Item]) {
   val sulfuras = "Sulfuras, Hand of Ragnaros"
 
   def updateQuality() {
-    for (i <- 0 until items.length) {
-      items(i).name match {
-        case `sulfuras` =>
-        case `backstagePass` => alterBackstagePassQuality(i)
-        case `brie` => alterBrieQuality(i)
-        case `conjured` => alterConjuredQuality(i)
-        case _ =>
-
-          reduceSellIn(i)
-
-          val reduction = if (items(i).sellIn > 0) 1 else 2
-
-          decreaseQuality(i, reduction)
-      }
+    items.filterNot(_.name.matches(`sulfuras`)).map{
+      currItem => handleNonLegendaryItems(currItem)
     }
   }
 
-  private def decreaseQuality(i: Int, quantity: Int) = {
+  private def handleNonLegendaryItems(item: Item): Item = {
+    return item.name match {
+      case `backstagePass` => alterBackstagePassQuality(item)
+      case `brie` => alterBrieQuality(item)
+      case `conjured` => alterConjuredQuality(item)
+      case _ =>
+
+        reduceSellIn(item)
+
+        val reduction = if (item.sellIn > 0) 1 else 2
+
+        decreaseQuality(item, reduction)
+    }
+  }
+
+  private def decreaseQuality(item: Item, quantity: Int): Item = {
     for (_ <- 1 to quantity) {
-      if (items(i).quality > 0) {
-        items(i).quality = items(i).quality - 1
+      if (item.quality > 0) {
+        item.quality = item.quality - 1
       }
+    }
+    item
+  }
+
+  private def reduceSellIn(item: Item): Unit = {
+    if (item.sellIn > 0) {
+      item.sellIn = item.sellIn - 1
     }
   }
 
-  def reduceSellIn(i: Int) = {
-    if (items(i).sellIn > 0) {
-      items(i).sellIn = items(i).sellIn - 1
-    }
+  private def alterConjuredQuality(item: Item): Item = {
+    reduceSellIn(item)
+    decreaseQuality(item, 2)
+    item
   }
 
-  private def alterConjuredQuality(i: Int) = {
-    reduceSellIn(i)
-    decreaseQuality(i, 2)
+  private def alterBrieQuality(item: Item): Item = {
+    reduceSellIn(item)
+    increaseQuality(item)
+    item
   }
 
-  private def alterBrieQuality(i: Int) = {
-    reduceSellIn(i)
-    increaseQuality(i)
-  }
+  private def alterBackstagePassQuality(item: Item): Item = {
+    reduceSellIn(item)
+    increaseQuality(item)
 
-  private def alterBackstagePassQuality(i: Int) = {
-    increaseQuality(i)
+    if (item.sellIn < 10) {
+      increaseQuality(item)
 
-    if (items(i).sellIn < 11) {
-      increaseQuality(i)
-
-      if (items(i).sellIn < 6) {
-        increaseQuality(i)
+      if (item.sellIn < 5) {
+        increaseQuality(item)
       }
 
-      if (items(i).sellIn < 1) {
-        items(i).quality = 0
+      if (item.sellIn == 0) {
+        item.quality = 0
       }
-
-      reduceSellIn(i)
     }
+    item
   }
 
-  private def increaseQuality(i: Int) = {
-    if (items(i).quality < 50) {
-      items(i).quality = items(i).quality + 1
+  private def increaseQuality(item: Item) = {
+    if (item.quality < 50) {
+      item.quality = item.quality + 1
     }
   }
 }
