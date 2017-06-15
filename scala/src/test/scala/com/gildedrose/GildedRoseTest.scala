@@ -18,5 +18,10 @@ class GildedRoseTest extends FlatSpec with Matchers {
     app.items(0).quality shouldBe(0)
   }
 
-
+  it should "increase the quality of Aged Brie over time" in {
+    val items = Array[Item](new Item("Aged Brie", 1, 2))
+    val app = new GildedRose(items)
+    app.updateQuality()
+    app.items(0).quality shouldBe(3)
+  }
 }
