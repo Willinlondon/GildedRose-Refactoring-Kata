@@ -10,4 +10,13 @@ class GildedRoseTest extends FlatSpec with Matchers {
     app.updateQuality()
     app.items(0).quality shouldBe(0)
   }
+
+  it should "never set the quality to negative" in {
+    val items = Array[Item](new Item("anyItem", 1, 0))
+    val app = new GildedRose(items)
+    app.updateQuality()
+    app.items(0).quality shouldBe(0)
+  }
+
+
 }
