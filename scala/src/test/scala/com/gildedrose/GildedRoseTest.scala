@@ -31,4 +31,18 @@ class GildedRoseTest extends FlatSpec with Matchers {
     app.updateQuality()
     app.items(0).quality shouldBe(50)
   }
+
+  it should "never decrease the quality of Sulfuras" in {
+    val items = Array[Item](new Item("Sulfuras, Hand of Ragnaros", 1, 40))
+    val app = new GildedRose(items)
+    app.updateQuality()
+    app.items(0).quality shouldBe(40)
+  }
+
+  it should "never have to sell Sulfuras" in {
+    val items = Array[Item](new Item("Sulfuras, Hand of Ragnaros", 1, 40))
+    val app = new GildedRose(items)
+    app.updateQuality()
+    app.items(0).sellIn shouldBe(1)
+  }
 }
