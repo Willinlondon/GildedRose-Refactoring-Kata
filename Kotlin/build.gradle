@@ -1,0 +1,22 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.10'
+    id 'java'
+}
+
+group 'com.springernature'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.natpryce:hamkrest:1.8.0.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    testImplementation             "junit:junit:4.13.2"
+}
+
+test {
+    useJUnitPlatform()
+}
