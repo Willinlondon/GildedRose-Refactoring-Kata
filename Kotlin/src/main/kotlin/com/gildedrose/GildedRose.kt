@@ -12,13 +12,10 @@ class GildedRose(var inventory: Array<Item>) {
 
     fun updateQuality() {
         for (item in inventory) {
-            if (isNotAgedBrie(item) && isNotTickets(item)) {
-                    reduceQuality(item)
-            } else {
-                increaseQuality(item)
-                if (!isNotTickets(item)) {
-                    applyTicketQualityIncrease(item)
-                }
+            when (item.name){
+                "Backstage passes to a TAFKAL80ETC concert" -> { applyTicketQualityIncrease(item) }
+                "Aged Brie" -> { increaseQuality(item) }
+                else -> { reduceQuality(item) }
             }
             reduceSellInDate(item)
             if (item.sellIn < 0) {
@@ -36,6 +33,7 @@ class GildedRose(var inventory: Array<Item>) {
     }
 
     private fun applyTicketQualityIncrease(item: Item) {
+        increaseQuality(item)
         if (item.sellIn <= TICKET_FIRST_INCREASE_DATE) {
                 increaseQuality(item)
         }
