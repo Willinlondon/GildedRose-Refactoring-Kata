@@ -16,23 +16,23 @@ class GildedRose(var inventory: Array<Item>) {
             if (item.name != AGED_BRIE && item.name != TICKETS) {
                 if (item.quality > MIN_QUALITY) {
                     if (item.name != SULFURAS) {
-                        item.quality = item.quality - DAILY_QUALITY_CHANGE
+                        item.quality -= DAILY_QUALITY_CHANGE
                     }
                 }
             } else {
                 if (item.quality < MAX_QUALITY) {
-                    item.quality = item.quality + DAILY_QUALITY_CHANGE
+                    item.quality += DAILY_QUALITY_CHANGE
 
                     if (item.name == TICKETS) {
                         if (item.sellIn < 11) {
                             if (item.quality < MAX_QUALITY) {
-                                item.quality = item.quality + DAILY_QUALITY_CHANGE
+                                item.quality += DAILY_QUALITY_CHANGE
                             }
                         }
 
                         if (item.sellIn < 6) {
                             if (item.quality < MAX_QUALITY) {
-                                item.quality = item.quality + DAILY_QUALITY_CHANGE
+                                item.quality += DAILY_QUALITY_CHANGE
                             }
                         }
                     }
@@ -48,15 +48,15 @@ class GildedRose(var inventory: Array<Item>) {
                     if (item.name != TICKETS) {
                         if (item.quality > MIN_QUALITY) {
                             if (item.name != SULFURAS) {
-                                item.quality = item.quality - DAILY_QUALITY_CHANGE
+                                item.quality -= DAILY_QUALITY_CHANGE
                             }
                         }
                     } else {
-                        item.quality = item.quality - item.quality
+                        item.quality -= item.quality
                     }
                 } else {
                     if (item.quality < MAX_QUALITY) {
-                        item.quality = item.quality + DAILY_QUALITY_CHANGE
+                        item.quality += DAILY_QUALITY_CHANGE
                     }
                 }
             }
