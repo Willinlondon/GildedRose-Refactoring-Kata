@@ -41,10 +41,7 @@ class GildedRose(var inventory: Array<Item>) {
                     }
                 }
             }
-
-            if (item.name != SULFURAS) {
-                item.sellIn -= DAY
-            }
+            reduceSellInDate(item)
 
             if (item.sellIn < 0) {
                 if (item.name != AGED_BRIE) {
@@ -63,6 +60,12 @@ class GildedRose(var inventory: Array<Item>) {
                     }
                 }
             }
+        }
+    }
+
+    private fun reduceSellInDate(item: Item) {
+        if (item.name != SULFURAS) {
+            item.sellIn -= DAY
         }
     }
 
