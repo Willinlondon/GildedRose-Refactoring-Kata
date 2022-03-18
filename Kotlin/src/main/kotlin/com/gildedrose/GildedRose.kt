@@ -1,6 +1,6 @@
 package com.gildedrose
 
-class GildedRose(var inventory: Array<Item>) {
+class GildedRose(val inventory: Array<Item>) {
 
     companion object {
         const val MAX_QUALITY = 50
@@ -13,17 +13,17 @@ class GildedRose(var inventory: Array<Item>) {
     fun updateQuality() {
         for (item in inventory) {
             applyQualityChanges(item)
-            reduceSellInDate(item)
-            if (item.sellIn < 0) {
+            if (isPastSellInDate(item)) {
                 applyQualityChanges(item)
             }
+            reduceSellInDate(item)
         }
     }
 
     private fun applyQualityChanges(item: Item) {
         when (item.name){
             "Backstage passes to a TAFKAL80ETC concert" -> {
-                if (item.sellIn < 0) {
+                if (isPastSellInDate(item)) {
                     item.quality = MIN_QUALITY
                 } else {
                     applyTicketQualityIncrease(item)
@@ -37,16 +37,16 @@ class GildedRose(var inventory: Array<Item>) {
     private fun applyTicketQualityIncrease(item: Item) {
         increaseQuality(item)
         if (item.sellIn <= TICKET_FIRST_INCREASE_DATE) {
-                increaseQuality(item)
+            increaseQuality(item)
         }
         if (item.sellIn <= TICKET_SECOND_INCREASE_DATE) {
-                increaseQuality(item)
+            increaseQuality(item)
         }
     }
 
     private fun reduceQuality(item: Item) {
         if (isNotSulfuras(item) && isAboveMinQuality(item)) {
-                item.quality -= DAILY_QUALITY_CHANGE
+            item.quality -= DAILY_QUALITY_CHANGE
         }
     }
 
@@ -54,6 +54,10 @@ class GildedRose(var inventory: Array<Item>) {
         if (isBelowMaxQuality(item)) {
             item.quality += DAILY_QUALITY_CHANGE
         }
+    }
+
+    private fun isPastSellInDate(item: Item): Boolean {
+        return item.sellIn <= 0
     }
 
     private fun isBelowMaxQuality(item: Item): Boolean {
@@ -70,7 +74,7 @@ class GildedRose(var inventory: Array<Item>) {
 
     private fun reduceSellInDate(item: Item) {
         if (isNotSulfuras(item)) {
-            item.sellIn -= 1
+            item.sellIn --
         }
     }
 
