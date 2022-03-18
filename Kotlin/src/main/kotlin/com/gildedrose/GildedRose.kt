@@ -14,9 +14,7 @@ class GildedRose(var inventory: Array<Item>) {
         for (item in inventory) {
             if (isNotAgedBrie(item) && isNotTickets(item)) {
                 if (isAboveMinQuality(item)) {
-                    if (isNotSulfuras(item)) {
-                        reduceQuality(item)
-                    }
+                    reduceQuality(item)
                 }
             } else {
                 if (isBelowMaxQuality(item)) {
@@ -33,9 +31,7 @@ class GildedRose(var inventory: Array<Item>) {
                 if (isNotAgedBrie(item)) {
                     if (isNotTickets(item)) {
                         if (isAboveMinQuality(item)) {
-                            if (isNotSulfuras(item)) {
                                 reduceQuality(item)
-                            }
                         }
                     } else {
                         item.quality = MIN_QUALITY
@@ -63,7 +59,9 @@ class GildedRose(var inventory: Array<Item>) {
     }
 
     private fun reduceQuality(item: Item) {
-        item.quality -= DAILY_QUALITY_CHANGE
+        if (isNotSulfuras(item)) {
+            item.quality -= DAILY_QUALITY_CHANGE
+        }
     }
 
     private fun increaseQuality(item: Item) {
