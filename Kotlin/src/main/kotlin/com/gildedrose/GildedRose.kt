@@ -6,7 +6,6 @@ class GildedRose(var inventory: Array<Item>) {
         const val MAX_QUALITY = 50
         const val MIN_QUALITY = 0
         const val DAILY_QUALITY_CHANGE = 1
-        const val DAY = 1
         const val TICKET_FIRST_INCREASE_DATE = 10
         const val TICKET_SECOND_INCREASE_DATE = 5
     }
@@ -16,25 +15,15 @@ class GildedRose(var inventory: Array<Item>) {
             if (isNotAgedBrie(item) && isNotTickets(item)) {
                 if (isAboveMinQuality(item)) {
                     if (isNotSulfuras(item)) {
-                        item.quality -= DAILY_QUALITY_CHANGE
+                        reduceQuality(item)
                     }
                 }
             } else {
                 if (isBelowMaxQuality(item)) {
-                    item.quality += DAILY_QUALITY_CHANGE
+                    increaseQuality(item)
 
                     if (!isNotTickets(item)) {
-                        if (item.sellIn <= TICKET_FIRST_INCREASE_DATE) {
-                            if (isBelowMaxQuality(item)) {
-                                item.quality += DAILY_QUALITY_CHANGE
-                            }
-                        }
-
-                        if (item.sellIn <= TICKET_SECOND_INCREASE_DATE) {
-                            if (isBelowMaxQuality(item)) {
-                                item.quality += DAILY_QUALITY_CHANGE
-                            }
-                        }
+                        applyTicketQualityIncrease(item)
                     }
                 }
             }
@@ -45,7 +34,7 @@ class GildedRose(var inventory: Array<Item>) {
                     if (isNotTickets(item)) {
                         if (isAboveMinQuality(item)) {
                             if (isNotSulfuras(item)) {
-                                item.quality -= DAILY_QUALITY_CHANGE
+                                reduceQuality(item)
                             }
                         }
                     } else {
@@ -53,11 +42,32 @@ class GildedRose(var inventory: Array<Item>) {
                     }
                 } else {
                     if (isBelowMaxQuality(item)) {
-                        item.quality += DAILY_QUALITY_CHANGE
+                        increaseQuality(item)
                     }
                 }
             }
         }
+    }
+
+    private fun applyTicketQualityIncrease(item: Item) {
+        if (item.sellIn <= TICKET_FIRST_INCREASE_DATE) {
+            if (isBelowMaxQuality(item)) {
+                increaseQuality(item)
+            }
+        }
+        if (item.sellIn <= TICKET_SECOND_INCREASE_DATE) {
+            if (isBelowMaxQuality(item)) {
+                increaseQuality(item)
+            }
+        }
+    }
+
+    private fun reduceQuality(item: Item) {
+        item.quality -= DAILY_QUALITY_CHANGE
+    }
+
+    private fun increaseQuality(item: Item) {
+        item.quality += DAILY_QUALITY_CHANGE
     }
 
     private fun isBelowMaxQuality(item: Item): Boolean {
@@ -82,7 +92,7 @@ class GildedRose(var inventory: Array<Item>) {
 
     private fun reduceSellInDate(item: Item) {
         if (isNotSulfuras(item)) {
-            item.sellIn -= DAY
+            item.sellIn -= 1
         }
     }
 
