@@ -3,8 +3,6 @@ package com.gildedrose
 class GildedRose(var inventory: Array<Item>) {
 
     companion object {
-        const val TICKETS = "Backstage passes to a TAFKAL80ETC concert"
-        const val AGED_BRIE = "Aged Brie"
         const val MAX_QUALITY = 50
         const val MIN_QUALITY = 0
         const val DAILY_QUALITY_CHANGE = 1
@@ -14,22 +12,24 @@ class GildedRose(var inventory: Array<Item>) {
 
     fun updateQuality() {
         for (item in inventory) {
-            when (item.name){
-                TICKETS -> { applyTicketQualityIncrease(item) }
-                AGED_BRIE -> { increaseQuality(item) }
-                else -> { reduceQuality(item) }
-            }
+            applyQualityChanges(item)
             reduceSellInDate(item)
             if (item.sellIn < 0) {
-                sellInDateReached(item)
+                applyQualityChanges(item)
             }
         }
     }
 
-    private fun sellInDateReached(item: Item) {
-        when (item.name) {
-            TICKETS -> { item.quality = MIN_QUALITY }
-            AGED_BRIE -> { increaseQuality(item) }
+    private fun applyQualityChanges(item: Item) {
+        when (item.name){
+            "Backstage passes to a TAFKAL80ETC concert" -> {
+                if (item.sellIn < 0) {
+                    item.quality = MIN_QUALITY
+                } else {
+                    applyTicketQualityIncrease(item)
+                }
+            }
+            "Aged Brie" -> { increaseQuality(item) }
             else -> { reduceQuality(item) }
         }
     }
