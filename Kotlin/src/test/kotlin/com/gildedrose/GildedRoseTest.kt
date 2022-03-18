@@ -9,8 +9,8 @@ class GildedRoseTest {
         val items = arrayOf(Item("Morning Glory Dew", 10, 10))
         val app = GildedRose(items)
         app.updateQuality()
-        assertEquals("Morning Glory Dew", app.items[0].name)
-        assertEquals(9, app.items[0].sellIn)
+        assertEquals("Morning Glory Dew", app.inventory[0].name)
+        assertEquals(9, app.inventory[0].sellIn)
     }
 
     @Test
@@ -18,8 +18,8 @@ class GildedRoseTest {
         val items = arrayOf(Item("Morning Glory Dew", 10, 10))
         val app = GildedRose(items)
         app.updateQuality()
-        assertEquals("Morning Glory Dew", app.items[0].name)
-        assertEquals(9, app.items[0].quality)
+        assertEquals("Morning Glory Dew", app.inventory[0].name)
+        assertEquals(9, app.inventory[0].quality)
     }
 
     @Test
@@ -29,8 +29,8 @@ class GildedRoseTest {
         for (days in 1..5) {
             app.updateQuality()
         }
-        assertEquals("Morning Glory Dew", app.items[0].name)
-        assertEquals(5, app.items[0].quality)
+        assertEquals("Morning Glory Dew", app.inventory[0].name)
+        assertEquals(5, app.inventory[0].quality)
     }
 
     @Test
@@ -40,8 +40,8 @@ class GildedRoseTest {
         for (days in 1..5) {
             app.updateQuality()
         }
-        assertEquals("Morning Glory Dew", app.items[0].name)
-        assertEquals(5, app.items[0].sellIn)
+        assertEquals("Morning Glory Dew", app.inventory[0].name)
+        assertEquals(5, app.inventory[0].sellIn)
     }
 
     @Test
@@ -51,8 +51,8 @@ class GildedRoseTest {
         for (days in 1..5) {
             app.updateQuality()
         }
-        assertEquals("Morning Glory Dew", app.items[0].name)
-        assertEquals(0, app.items[0].quality)
+        assertEquals("Morning Glory Dew", app.inventory[0].name)
+        assertEquals(0, app.inventory[0].quality)
     }
 
     @Test
@@ -62,8 +62,8 @@ class GildedRoseTest {
         for (days in 1..5) {
             app.updateQuality()
         }
-        assertEquals("Morning Glory Dew", app.items[0].name)
-        assertEquals(12, app.items[0].quality)
+        assertEquals("Morning Glory Dew", app.inventory[0].name)
+        assertEquals(12, app.inventory[0].quality)
     }
 
     @Test
@@ -71,8 +71,8 @@ class GildedRoseTest {
         val items = arrayOf(Item("Aged Brie", 10, 10))
         val app = GildedRose(items)
         app.updateQuality()
-        assertEquals("Aged Brie", app.items[0].name)
-        assertEquals(11, app.items[0].quality)
+        assertEquals("Aged Brie", app.inventory[0].name)
+        assertEquals(11, app.inventory[0].quality)
     }
 
     @Test
@@ -82,8 +82,8 @@ class GildedRoseTest {
         for (days in 1..5) {
             app.updateQuality()
         }
-        assertEquals("Aged Brie", app.items[0].name)
-        assertEquals(17, app.items[0].quality)
+        assertEquals("Aged Brie", app.inventory[0].name)
+        assertEquals(17, app.inventory[0].quality)
     }
 
     @Test
@@ -93,8 +93,8 @@ class GildedRoseTest {
         for (days in 1..5) {
             app.updateQuality()
         }
-        assertEquals("Aged Brie", app.items[0].name)
-        assertEquals(50, app.items[0].quality)
+        assertEquals("Aged Brie", app.inventory[0].name)
+        assertEquals(50, app.inventory[0].quality)
     }
 
     @Test
@@ -104,8 +104,8 @@ class GildedRoseTest {
         for (days in 1..5) {
             app.updateQuality()
         }
-        assertEquals("Sulfuras, Hand of Ragnaros", app.items[0].name)
-        assertEquals(80, app.items[0].quality)
+        assertEquals("Sulfuras, Hand of Ragnaros", app.inventory[0].name)
+        assertEquals(80, app.inventory[0].quality)
     }
 
     @Test
@@ -115,8 +115,8 @@ class GildedRoseTest {
         for (days in 1..5) {
             app.updateQuality()
         }
-        assertEquals("Sulfuras, Hand of Ragnaros", app.items[0].name)
-        assertEquals(3, app.items[0].sellIn)
+        assertEquals("Sulfuras, Hand of Ragnaros", app.inventory[0].name)
+        assertEquals(3, app.inventory[0].sellIn)
     }
 
     @Test
@@ -126,8 +126,8 @@ class GildedRoseTest {
         for (days in 1..5) {
             app.updateQuality()
         }
-        assertEquals("Backstage passes to a TAFKAL80ETC concert", app.items[0].name)
-        assertEquals(0, app.items[0].sellIn)
+        assertEquals("Backstage passes to a TAFKAL80ETC concert", app.inventory[0].name)
+        assertEquals(0, app.inventory[0].sellIn)
     }
 
     @Test
@@ -137,8 +137,8 @@ class GildedRoseTest {
         for (days in 1..5) {
             app.updateQuality()
         }
-        assertEquals("Backstage passes to a TAFKAL80ETC concert", app.items[0].name)
-        assertEquals(15, app.items[0].quality)
+        assertEquals("Backstage passes to a TAFKAL80ETC concert", app.inventory[0].name)
+        assertEquals(15, app.inventory[0].quality)
     }
 
     @Test
@@ -148,8 +148,8 @@ class GildedRoseTest {
         for (days in 1..5) {
             app.updateQuality()
         }
-        assertEquals("Backstage passes to a TAFKAL80ETC concert", app.items[0].name)
-        assertEquals(20, app.items[0].quality)
+        assertEquals("Backstage passes to a TAFKAL80ETC concert", app.inventory[0].name)
+        assertEquals(20, app.inventory[0].quality)
     }
 
     @Test
@@ -159,8 +159,8 @@ class GildedRoseTest {
         for (days in 1..5) {
             app.updateQuality()
         }
-        assertEquals("Backstage passes to a TAFKAL80ETC concert", app.items[0].name)
-        assertEquals(25, app.items[0].quality)
+        assertEquals("Backstage passes to a TAFKAL80ETC concert", app.inventory[0].name)
+        assertEquals(25, app.inventory[0].quality)
     }
 
     @Test
@@ -170,8 +170,8 @@ class GildedRoseTest {
         for (days in 1..15) {
             app.updateQuality()
         }
-        assertEquals("Backstage passes to a TAFKAL80ETC concert", app.items[0].name)
-        assertEquals(40, app.items[0].quality)
+        assertEquals("Backstage passes to a TAFKAL80ETC concert", app.inventory[0].name)
+        assertEquals(40, app.inventory[0].quality)
     }
 
     @Test
@@ -181,8 +181,8 @@ class GildedRoseTest {
         for (days in 1..16) {
             app.updateQuality()
         }
-        assertEquals("Backstage passes to a TAFKAL80ETC concert", app.items[0].name)
-        assertEquals(0, app.items[0].quality)
+        assertEquals("Backstage passes to a TAFKAL80ETC concert", app.inventory[0].name)
+        assertEquals(0, app.inventory[0].quality)
     }
 }
 
