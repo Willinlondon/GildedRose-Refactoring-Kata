@@ -9,6 +9,9 @@ class GildedRose(var inventory: Array<Item>) {
         const val MAX_QUALITY = 50
         const val MIN_QUALITY = 0
         const val DAILY_QUALITY_CHANGE = 1
+        const val DAY = 1
+        const val TICKET_FIRST_INCREASE_DATE = 10
+        const val TICKET_SECOND_INCREASE_DATE = 5
     }
 
     fun updateQuality() {
@@ -24,13 +27,13 @@ class GildedRose(var inventory: Array<Item>) {
                     item.quality += DAILY_QUALITY_CHANGE
 
                     if (item.name == TICKETS) {
-                        if (item.sellIn < 11) {
+                        if (item.sellIn <= TICKET_FIRST_INCREASE_DATE) {
                             if (item.quality < MAX_QUALITY) {
                                 item.quality += DAILY_QUALITY_CHANGE
                             }
                         }
 
-                        if (item.sellIn < 6) {
+                        if (item.sellIn <= TICKET_SECOND_INCREASE_DATE) {
                             if (item.quality < MAX_QUALITY) {
                                 item.quality += DAILY_QUALITY_CHANGE
                             }
@@ -40,7 +43,7 @@ class GildedRose(var inventory: Array<Item>) {
             }
 
             if (item.name != SULFURAS) {
-                item.sellIn = item.sellIn - 1
+                item.sellIn -= DAY
             }
 
             if (item.sellIn < 0) {
