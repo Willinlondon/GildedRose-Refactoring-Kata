@@ -17,12 +17,9 @@ class GildedRose(var inventory: Array<Item>) {
                     reduceQuality(item)
                 }
             } else {
-                if (isBelowMaxQuality(item)) {
-                    increaseQuality(item)
-
-                    if (!isNotTickets(item)) {
-                        applyTicketQualityIncrease(item)
-                    }
+                increaseQuality(item)
+                if (!isNotTickets(item)) {
+                    applyTicketQualityIncrease(item)
                 }
             }
             reduceSellInDate(item)
@@ -37,9 +34,7 @@ class GildedRose(var inventory: Array<Item>) {
                         item.quality = MIN_QUALITY
                     }
                 } else {
-                    if (isBelowMaxQuality(item)) {
-                        increaseQuality(item)
-                    }
+                    increaseQuality(item)
                 }
             }
         }
@@ -47,14 +42,10 @@ class GildedRose(var inventory: Array<Item>) {
 
     private fun applyTicketQualityIncrease(item: Item) {
         if (item.sellIn <= TICKET_FIRST_INCREASE_DATE) {
-            if (isBelowMaxQuality(item)) {
                 increaseQuality(item)
-            }
         }
         if (item.sellIn <= TICKET_SECOND_INCREASE_DATE) {
-            if (isBelowMaxQuality(item)) {
                 increaseQuality(item)
-            }
         }
     }
 
@@ -65,7 +56,9 @@ class GildedRose(var inventory: Array<Item>) {
     }
 
     private fun increaseQuality(item: Item) {
-        item.quality += DAILY_QUALITY_CHANGE
+        if (isBelowMaxQuality(item)) {
+            item.quality += DAILY_QUALITY_CHANGE
+        }
     }
 
     private fun isBelowMaxQuality(item: Item): Boolean {
