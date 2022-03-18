@@ -3,6 +3,8 @@ package com.gildedrose
 class GildedRose(var inventory: Array<Item>) {
 
     companion object {
+        const val TICKETS = "Backstage passes to a TAFKAL80ETC concert"
+        const val AGED_BRIE = "Aged Brie"
         const val MAX_QUALITY = 50
         const val MIN_QUALITY = 0
         const val DAILY_QUALITY_CHANGE = 1
@@ -13,22 +15,22 @@ class GildedRose(var inventory: Array<Item>) {
     fun updateQuality() {
         for (item in inventory) {
             when (item.name){
-                "Backstage passes to a TAFKAL80ETC concert" -> { applyTicketQualityIncrease(item) }
-                "Aged Brie" -> { increaseQuality(item) }
+                TICKETS -> { applyTicketQualityIncrease(item) }
+                AGED_BRIE -> { increaseQuality(item) }
                 else -> { reduceQuality(item) }
             }
             reduceSellInDate(item)
             if (item.sellIn < 0) {
-                if (isNotAgedBrie(item)) {
-                    if (isNotTickets(item)) {
-                        reduceQuality(item)
-                    } else {
-                        item.quality = MIN_QUALITY
-                    }
-                } else {
-                    increaseQuality(item)
-                }
+                sellInDateReached(item)
             }
+        }
+    }
+
+    private fun sellInDateReached(item: Item) {
+        when (item.name) {
+            TICKETS -> { item.quality = MIN_QUALITY }
+            AGED_BRIE -> { increaseQuality(item) }
+            else -> { reduceQuality(item) }
         }
     }
 
@@ -60,14 +62,6 @@ class GildedRose(var inventory: Array<Item>) {
 
     private fun isAboveMinQuality(item: Item): Boolean {
         return item.quality > MIN_QUALITY
-    }
-
-    private fun isNotAgedBrie(item: Item): Boolean {
-        return item.name != "Aged Brie"
-    }
-
-    private fun isNotTickets(item: Item): Boolean {
-        return item.name != "Backstage passes to a TAFKAL80ETC concert"
     }
 
     private fun isNotSulfuras(item: Item): Boolean {
