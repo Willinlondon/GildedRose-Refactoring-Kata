@@ -5,7 +5,6 @@ class GildedRose(val inventory: Array<Item>) {
     companion object {
         const val MAX_QUALITY = 50
         const val MIN_QUALITY = 0
-        const val DAILY_QUALITY_CHANGE = 1
         const val TICKET_FIRST_INCREASE_DATE = 10
         const val TICKET_SECOND_INCREASE_DATE = 5
     }
@@ -46,13 +45,13 @@ class GildedRose(val inventory: Array<Item>) {
 
     private fun reduceQuality(item: Item) {
         if (isNotSulfuras(item) && isAboveMinQuality(item)) {
-            item.quality -= DAILY_QUALITY_CHANGE
+            item.quality --
         }
     }
 
     private fun increaseQuality(item: Item) {
         if (isBelowMaxQuality(item)) {
-            item.quality += DAILY_QUALITY_CHANGE
+            item.quality ++
         }
     }
 
@@ -77,6 +76,5 @@ class GildedRose(val inventory: Array<Item>) {
             item.sellIn --
         }
     }
-
 }
 
