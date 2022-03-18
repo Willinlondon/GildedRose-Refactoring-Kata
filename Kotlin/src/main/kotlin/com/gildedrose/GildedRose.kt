@@ -52,7 +52,7 @@ class GildedRose(var inventory: Array<Item>) {
                             }
                         }
                     } else {
-                        item.quality -= item.quality
+                        item.quality = MIN_QUALITY
                     }
                 } else {
                     if (item.quality < MAX_QUALITY) {
