@@ -4,73 +4,72 @@ class GildedRose(val inventory: Array<Item>) {
 
     companion object {
         const val MAX_QUALITY = 50
-        const val MIN_QUALITY = 0
         const val TICKET_FIRST_INCREASE_DATE = 10
         const val TICKET_SECOND_INCREASE_DATE = 5
     }
 
     fun updateQuality() {
         for (item in inventory) {
-            applyQualityChanges(item)
-            if (isPastSellInDate(item)) {
-                applyQualityChanges(item)
+            item.applyQualityChanges()
+            if (item.isPastSellInDate()) {
+                item.applyQualityChanges()
             }
-            reduceSellInDate(item)
+            item.reduceSellInDate()
         }
     }
 
-    private fun applyQualityChanges(item: Item) {
-        when (item.name){
-            "Backstage passes to a TAFKAL80ETC concert" -> { applyTicketQualityIncrease(item) }
-            "Aged Brie" -> { increaseQuality(item) }
-            else -> { reduceQuality(item) }
+    private fun Item.applyQualityChanges() {
+        when (this.name){
+            "Backstage passes to a TAFKAL80ETC concert" -> { this.applyTicketQualityIncrease() }
+            "Aged Brie" -> { this.increaseQuality() }
+            else -> { this.reduceQuality() }
         }
     }
 
-    private fun applyTicketQualityIncrease(item: Item) {
+    private fun Item.applyTicketQualityIncrease() {
         when {
-            item.sellIn <= 0 -> { item.quality = 0 }
-            item.sellIn <= TICKET_SECOND_INCREASE_DATE -> {
-                repeat(3) { increaseQuality(item) }
+            this.sellIn <= 0 -> { this.quality = 0 }
+            this.sellIn <= TICKET_SECOND_INCREASE_DATE -> {
+                repeat(3) { this.increaseQuality() }
             }
-            item.sellIn <= TICKET_FIRST_INCREASE_DATE -> {
-                repeat(2) { increaseQuality(item) }
+            this.sellIn <= TICKET_FIRST_INCREASE_DATE -> {
+                repeat(2) { this.increaseQuality() }
             }
-            else -> { increaseQuality(item) }
+            else -> { this.increaseQuality() }
         }
     }
 
-    private fun reduceQuality(item: Item) {
-        if (isNotSulfuras(item) && isAboveMinQuality(item)) {
-            item.quality --
+    private fun Item.reduceQuality() {
+        if (this.isNotSulfuras() && this.isAboveMinQuality()) {
+            this.quality --
         }
     }
 
-    private fun increaseQuality(item: Item) {
-        if (item.isBelowMaxQuality()) {
-            item.quality ++
+    private fun Item.increaseQuality() {
+        if (this.isBelowMaxQuality()) {
+            this.quality ++
         }
     }
 
-    private fun isPastSellInDate(item: Item): Boolean {
-        return item.sellIn <= 0
+    private fun Item.isPastSellInDate(): Boolean {
+        return sellIn <= 0
     }
 
     private fun Item.isBelowMaxQuality(): Boolean {
         return quality < MAX_QUALITY
     }
 
-    private fun isAboveMinQuality(item: Item): Boolean {
-        return item.quality > MIN_QUALITY
+    private fun Item.isAboveMinQuality(): Boolean {
+        return quality > 0
     }
 
-    private fun isNotSulfuras(item: Item): Boolean {
-        return item.name != "Sulfuras, Hand of Ragnaros"
+    private fun Item.isNotSulfuras(): Boolean {
+        return name != "Sulfuras, Hand of Ragnaros"
     }
 
-    private fun reduceSellInDate(item: Item) {
-        if (isNotSulfuras(item)) {
-            item.sellIn --
+    private fun Item.reduceSellInDate() {
+        if (this.isNotSulfuras()) {
+            this.sellIn --
         }
     }
 }
