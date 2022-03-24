@@ -21,25 +21,23 @@ class GildedRose(val inventory: Array<Item>) {
 
     private fun applyQualityChanges(item: Item) {
         when (item.name){
-            "Backstage passes to a TAFKAL80ETC concert" -> {
-                if (isPastSellInDate(item)) {
-                    item.quality = MIN_QUALITY
-                } else {
-                    applyTicketQualityIncrease(item)
-                }
-            }
+            "Backstage passes to a TAFKAL80ETC concert" -> { applyTicketQualityIncrease(item)}
             "Aged Brie" -> { increaseQuality(item) }
             else -> { reduceQuality(item) }
         }
     }
 
     private fun applyTicketQualityIncrease(item: Item) {
-        increaseQuality(item)
-        if (item.sellIn <= TICKET_FIRST_INCREASE_DATE) {
+        if (isPastSellInDate(item)) {
+            item.quality = 0
+        } else {
             increaseQuality(item)
-        }
-        if (item.sellIn <= TICKET_SECOND_INCREASE_DATE) {
-            increaseQuality(item)
+            if (item.sellIn <= TICKET_FIRST_INCREASE_DATE) {
+                increaseQuality(item)
+            }
+            if (item.sellIn <= TICKET_SECOND_INCREASE_DATE) {
+                increaseQuality(item)
+            }
         }
     }
 
@@ -50,7 +48,7 @@ class GildedRose(val inventory: Array<Item>) {
     }
 
     private fun increaseQuality(item: Item) {
-        if (isBelowMaxQuality(item)) {
+        if (item.isBelowMaxQuality()) {
             item.quality ++
         }
     }
@@ -59,8 +57,8 @@ class GildedRose(val inventory: Array<Item>) {
         return item.sellIn <= 0
     }
 
-    private fun isBelowMaxQuality(item: Item): Boolean {
-        return item.quality < MAX_QUALITY
+    private fun Item.isBelowMaxQuality(): Boolean {
+        return quality < MAX_QUALITY
     }
 
     private fun isAboveMinQuality(item: Item): Boolean {
