@@ -21,23 +21,22 @@ class GildedRose(val inventory: Array<Item>) {
 
     private fun applyQualityChanges(item: Item) {
         when (item.name){
-            "Backstage passes to a TAFKAL80ETC concert" -> { applyTicketQualityIncrease(item)}
+            "Backstage passes to a TAFKAL80ETC concert" -> { applyTicketQualityIncrease(item) }
             "Aged Brie" -> { increaseQuality(item) }
             else -> { reduceQuality(item) }
         }
     }
 
     private fun applyTicketQualityIncrease(item: Item) {
-        if (isPastSellInDate(item)) {
-            item.quality = 0
-        } else {
-            increaseQuality(item)
-            if (item.sellIn <= TICKET_FIRST_INCREASE_DATE) {
-                increaseQuality(item)
+        when {
+            item.sellIn <= 0 -> { item.quality = 0 }
+            item.sellIn <= TICKET_SECOND_INCREASE_DATE -> {
+                repeat(3) { increaseQuality(item) }
             }
-            if (item.sellIn <= TICKET_SECOND_INCREASE_DATE) {
-                increaseQuality(item)
+            item.sellIn <= TICKET_FIRST_INCREASE_DATE -> {
+                repeat(2) { increaseQuality(item) }
             }
+            else -> { increaseQuality(item) }
         }
     }
 
