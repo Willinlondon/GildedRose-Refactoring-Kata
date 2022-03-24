@@ -11,9 +11,6 @@ class GildedRose(val inventory: Array<Item>) {
     fun updateQuality() {
         for (item in inventory) {
             item.applyQualityChanges()
-            if (item.isPastSellInDate()) {
-                item.applyQualityChanges()
-            }
             item.reduceSellInDate()
         }
     }
@@ -42,12 +39,18 @@ class GildedRose(val inventory: Array<Item>) {
     private fun Item.reduceQuality() {
         if (this.isNotSulfuras() && this.isAboveMinQuality()) {
             this.quality --
+            if (this.isPastSellInDate()) {
+                this.quality --
+            }
         }
     }
 
     private fun Item.increaseQuality() {
         if (this.isBelowMaxQuality()) {
             this.quality ++
+            if (this.isPastSellInDate()) {
+                this.quality ++
+            }
         }
     }
 
