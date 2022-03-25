@@ -17,27 +17,24 @@ class GildedRose(val inventory: Array<Item>) {
 
     private fun Item.applyQualityChanges() {
         when (this.name){
-            "Backstage passes to a TAFKAL80ETC concert" -> { this.applyTicketQualityIncrease() }
-            "Aged Brie" -> { this.increaseQuality() }
-            else -> { this.reduceQuality() }
+            "Backstage passes to a TAFKAL80ETC concert" -> this.applyTicketQualityIncrease()
+            "Aged Brie" -> this.increaseQuality()
+            "Sulfuras, Hand of Ragnaros" -> this.sellIn ++
+            else -> this.reduceQuality()
         }
     }
 
     private fun Item.applyTicketQualityIncrease() {
         when {
             this.sellIn <= 0 -> { this.quality = 0 }
-            this.sellIn <= TICKET_SECOND_INCREASE_DATE -> {
-                repeat(3) { this.increaseQuality() }
-            }
-            this.sellIn <= TICKET_FIRST_INCREASE_DATE -> {
-                repeat(2) { this.increaseQuality() }
-            }
-            else -> { this.increaseQuality() }
+            this.sellIn <= TICKET_SECOND_INCREASE_DATE -> repeat(3) { this.increaseQuality() }
+            this.sellIn <= TICKET_FIRST_INCREASE_DATE -> repeat(2) { this.increaseQuality() }
+            else -> this.increaseQuality()
         }
     }
 
     private fun Item.reduceQuality() {
-        if (this.isNotSulfuras() && this.isAboveMinQuality()) {
+        if (this.isAboveMinQuality()) {
             this.quality --
             if (this.isPastSellInDate()) {
                 this.quality --
@@ -66,14 +63,8 @@ class GildedRose(val inventory: Array<Item>) {
         return quality > 0
     }
 
-    private fun Item.isNotSulfuras(): Boolean {
-        return name != "Sulfuras, Hand of Ragnaros"
-    }
-
     private fun Item.reduceSellInDate() {
-        if (this.isNotSulfuras()) {
-            this.sellIn --
-        }
+        this.sellIn --
     }
 }
 
